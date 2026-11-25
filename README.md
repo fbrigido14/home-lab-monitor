@@ -4,6 +4,8 @@
 
 # Homelab Monitor
 
+[![YouTube - Canal Chipset](https://img.shields.io/badge/YouTube-Canal_Chipset-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@Chipset-BR)
+
 **Uma dashboard só para o homelab inteiro: rede, virtualização, backups, armazenamento, mídia, casa inteligente e energia, com alertas e app Android.**
 
 ![Versão](https://img.shields.io/badge/vers%C3%A3o-1.11.0-116a67)
