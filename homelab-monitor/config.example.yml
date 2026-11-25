@@ -1,0 +1,146 @@
+# Homelab Monitor — configuração
+#
+# Este arquivo é copiado para data/config.yml na primeira execução.
+# Edite por aqui ou pela página Configurações da dashboard.
+#
+# • A ordem dos serviços define a ordem na frota e no menu.
+# • "enabled: false" desliga um serviço sem apagar a configuração.
+# • Você pode repetir um tipo (ex.: dois nós Proxmox) com ids diferentes.
+# • ${VARIAVEL} lê o valor do arquivo .env — bom para manter segredos fora daqui.
+#   Também dá para colar a chave direto (a dashboard faz isso ao salvar pela tela).
+
+settings:
+  poll_interval: 30        # segundos entre coletas
+  retention_days: 30       # histórico guardado
+  demo_mode: auto          # auto = serviços sem credencial usam dados simulados | on | off
+  http_timeout: 10
+  tz_offset: -3
+  thresholds:
+    disk_warn: 80
+    disk_crit: 90
+    mem_warn: 92
+    temp_warn: 75
+  energy:
+    tariff: 0.95           # R$/kWh, com impostos
+    currency: BRL
+    profile:               # watts [ocioso, máximo] por tipo, interpolado pela CPU
+      gateway: [7, 11]
+      ap: [4, 7]           # U6 Lite
+      proxmox: [35, 140]
+      pbs: [0, 0]          # 0 se o PBS for VM do Proxmox (não contar em dobro)
+      truenas: [0, 0]      # idem para TrueNAS virtualizado
+      sbc: [3, 9]          # Orange Pi 4 Pro
+      linux: [10, 40]
+    hosts: {}              # ajuste por id de host, ex.: { proxmox-pve: [28, 120] }
+
+services:
+  - id: unifi
+    type: unifi
+    name: UniFi
+    enabled: true
+    url: https://192.168.1.1
+    api_key: ${UNIFI_API_KEY}
+    site: default
+    verify_ssl: false
+
+  - id: proxmox
+    type: proxmox
+    name: Proxmox VE
+    enabled: true
+    url: https://192.168.1.10:8006
+    token_id: monitor@pve!dashboard
+    token_secret: ${PVE_TOKEN_SECRET}
+    verify_ssl: false
+
+  - id: pbs
+    type: pbs
+    name: pbs
+    enabled: true
+    url: https://192.168.1.11:8007
+    token_id: monitor@pbs!dashboard
+    token_secret: ${PBS_TOKEN_SECRET}
+    max_backup_age_h: 26
+    verify_ssl: false
+
+  - id: truenas
+    type: truenas
+    name: TrueNAS
+    enabled: true
+    url: https://192.168.1.12
+    api_key: ${TRUENAS_API_KEY}
+    api_mode: ws
+    verify_ssl: false
+
+  - id: zabbix
+    type: zabbix
+    name: Zabbix
+    enabled: true
+    url: http://192.168.1.13/zabbix
+    token: ${ZABBIX_TOKEN}
+    fleet_hosts:
+      - orangepi=Orange Pi 4 Pro
+    fleet_kind: sbc
+    temp_key: ""
+    min_severity: "2"
+
+  - id: homeassistant
+    type: homeassistant
+    name: Home Assistant
+    enabled: true
+    url: http://192.168.1.13:8123
+    token: ${HA_TOKEN}
+    # Página Casa (somente leitura). Nomes das áreas do Home Assistant, na ordem desejada.
+    # Deixe vazio para mostrar todas as áreas que tenham luzes ou tomadas.
+    areas:
+      - Cozinha
+      - Sala
+      - Suíte
+      - Escritório
+      - Segundo quarto
+    ignore: []             # entidades para esconder
+    power_entity: ""       # sensor W da tomada do rack, ex.: sensor.tomada_rack_power
+    light_on_alert_h: 6    # avisar luz acesa há mais de N horas (0 desliga)
+    plug_high_w: 0         # avisar tomada acima de N W (0 desliga)
+    battery_warn: 20
+    lqi_warn: 30
+    # Câmeras do Frigate (pela integração Frigate do Home Assistant)
+    camera_view: image     # image = imagem e status | status = só online/offline | off = não mostrar
+    cameras: []            # vazio = todas do Frigate; ex.: [camera.garagem=Garagem, camera.entrada]
+    camera_refresh_s: 10
+    camera_images_for: all # all = todos os usuários | admin = só administradores
+    camera_offline_alert: true
+    entities: []           # outras entidades para acompanhar
+
+  - id: emby
+    type: emby
+    name: Emby
+    enabled: true
+    url: http://192.168.1.14:8096
+    api_key: ${EMBY_API_KEY}
+
+  - id: jellyfin
+    type: jellyfin
+    name: Jellyfin
+    enabled: true
+    url: http://192.168.1.15:8096
+    api_key: ${JELLYFIN_API_KEY}
+
+  - id: nextcloud
+    type: nextcloud
+    name: Nextcloud
+    enabled: true
+    url: https://nuvem.minhacasa.com.br
+    token: ${NEXTCLOUD_TOKEN}       # token do serverinfo (ou use username + app_password)
+    free_warn_gb: 20
+
+  # Exemplos de verificações genéricas para qualquer outro serviço:
+  # - id: pihole
+  #   type: http
+  #   name: Pi-hole
+  #   url: http://192.168.1.15/admin
+  #   expect_status: 200
+  # - id: mqtt
+  #   type: tcp
+  #   name: Mosquitto
+  #   host: 192.168.1.13
+  #   port: 1883

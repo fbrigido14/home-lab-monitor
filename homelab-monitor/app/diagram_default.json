@@ -1,0 +1,65 @@
+{
+  "title": "Rede de casa",
+  "subtitle": "Visão do homelab",
+  "types": [
+    {"id": "direct", "label": "Dependência direta", "color": "ink", "dashed": false},
+    {"id": "indirect", "label": "Dependência indireta", "color": "ink", "dashed": true},
+    {"id": "external", "label": "Acesso externo", "color": "green", "dashed": false},
+    {"id": "internal", "label": "Conexão interna", "color": "blue", "dashed": false},
+    {"id": "monitoring", "label": "Monitoramento e métricas", "color": "purple", "dashed": true},
+    {"id": "notify", "label": "Alertas", "color": "orange", "dashed": true}
+  ],
+  "groups": [
+    {"id": "externo", "kind": "items", "title": "Acesso externo", "color": "green", "x": 28, "y": 120, "w": 240, "cols": 1, "items": [
+      {"id": "internet", "name": "Internet", "subtitle": "Vivo Fibra", "icon": "globe"},
+      {"id": "usuarios", "name": "Usuários", "subtitle": "Casa e VPN", "icon": "users"}
+    ]},
+    {"id": "borda", "kind": "items", "title": "Rede e acesso", "color": "green", "x": 360, "y": 40, "w": 860, "cols": 3, "items": [
+      {"id": "gateway", "name": "Gateway Ultra", "subtitle": "Firewall, DHCP e DNS", "icon": "router", "link": "unifi"},
+      {"id": "u6lite", "name": "U6 Lite", "subtitle": "Wi-Fi do escritório", "icon": "wifi", "link": "unifi"},
+      {"id": "vpn", "name": "VPN UniFi", "subtitle": "Acesso remoto", "icon": "lock"}
+    ]},
+    {"id": "infra", "kind": "items", "title": "Infraestrutura", "color": "blue", "x": 28, "y": 360, "w": 240, "cols": 1, "items": [
+      {"id": "pve", "name": "Proxmox VE", "subtitle": "Virtualização", "icon": "server", "link": "proxmox"},
+      {"id": "pbs", "name": "Proxmox Backup", "subtitle": "Backups diários", "icon": "backup", "link": "pbs"},
+      {"id": "truenas", "name": "TrueNAS", "subtitle": "Armazenamento ZFS", "icon": "storage", "link": "truenas"},
+      {"id": "opi", "name": "Orange Pi 4 Pro", "subtitle": "Zabbix e Home Assistant", "icon": "cpu", "link": "zbx-orangepi"}
+    ]},
+    {"id": "servicos", "kind": "items", "title": "Serviços e aplicações", "color": "blue", "x": 316, "y": 236, "w": 910, "cols": 4, "items": [
+      {"id": "emby", "name": "Emby", "subtitle": "Servidor de mídia", "icon": "play", "link": "emby"},
+      {"id": "ha", "name": "Home Assistant", "subtitle": "Automação da casa", "icon": "home", "link": "homeassistant"},
+      {"id": "zabbix", "name": "Zabbix", "subtitle": "Monitoramento", "icon": "activity", "link": "zabbix"},
+      {"id": "monitor", "name": "Homelab Monitor", "subtitle": "Esta dashboard", "icon": "chart"},
+      {"id": "docker", "name": "Docker", "subtitle": "Apps em LXC", "icon": "box"},
+      {"id": "shares", "name": "Compartilhamentos", "subtitle": "SMB e NFS", "icon": "folder"},
+      {"id": "zigbee", "name": "Zigbee", "subtitle": "Coordenador do HA", "icon": "zap"}
+    ]},
+    {"id": "monit", "kind": "items", "title": "Monitoramento", "color": "purple", "x": 1270, "y": 236, "w": 236, "cols": 1, "items": [
+      {"id": "m-monitor", "name": "Homelab Monitor", "subtitle": "Painel, energia e alertas", "icon": "chart"},
+      {"id": "m-zabbix", "name": "Zabbix", "subtitle": "Problemas e métricas", "icon": "activity", "link": "zabbix"},
+      {"id": "m-ha", "name": "Home Assistant", "subtitle": "Sensores e consumo", "icon": "thermo", "link": "homeassistant"}
+    ]},
+    {"id": "casa", "kind": "items", "title": "Casa inteligente", "color": "orange", "x": 420, "y": 610, "w": 700, "cols": 3, "items": [
+      {"id": "tomadas", "name": "Tomadas Zigbee", "subtitle": "Consumo por aparelho", "icon": "plug"},
+      {"id": "interruptores", "name": "Interruptores", "subtitle": "Cinco cômodos", "icon": "bulb"},
+      {"id": "sensores", "name": "Sensores", "subtitle": "Porta e temperatura", "icon": "thermo"}
+    ]},
+    {"id": "legenda", "kind": "legend", "title": "Legenda", "color": "ink", "x": 28, "y": 790, "w": 240},
+    {"id": "notas", "kind": "notes", "title": "Notas", "color": "ink", "x": 1180, "y": 700, "w": 326, "notes": [
+      "Proxmox hospeda VMs e containers",
+      "Backups diários no Proxmox Backup",
+      "Armazenamento em TrueNAS com ZFS",
+      "Orange Pi roda Zabbix e Home Assistant",
+      "Acesso remoto pela VPN da UniFi",
+      "Monitoramento pelo Homelab Monitor"
+    ]}
+  ],
+  "links": [
+    {"from": "externo", "to": "borda", "type": "external", "both": true},
+    {"from": "borda", "to": "servicos", "type": "internal"},
+    {"from": "infra", "to": "servicos", "type": "direct"},
+    {"from": "servicos", "to": "monit", "type": "monitoring", "both": true},
+    {"from": "casa", "to": "servicos", "type": "internal", "both": true},
+    {"from": "monit", "to": "casa", "type": "notify"}
+  ]
+}

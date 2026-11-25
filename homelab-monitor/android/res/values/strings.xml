@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Homelab Monitor</string>
+    <string name="widget_name">Estado do homelab</string>
+</resources>

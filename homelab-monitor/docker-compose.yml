@@ -1,0 +1,27 @@
+services:
+  homelab-monitor:
+    build: .
+    image: homelab-monitor:latest
+    container_name: homelab-monitor
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      # Troque por "IP_DO_HOST:8080:8080" para escutar só na rede local,
+      # ou remova e acesse só pelo proxy reverso.
+      - "8080:8080"
+    volumes:
+      - ./data:/data   # config.yml, usuários, histórico, diagrama, atalhos e aparência
+    # endurecimento do container
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:            # só para ajustar o dono de ./data na inicialização; depois o processo roda sem privilégios
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETUID
+      - SETGID

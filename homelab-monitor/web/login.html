@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar · Homelab Monitor</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='3' y='5' width='26' height='6' rx='2' fill='%23116a67'/><rect x='3' y='13' width='26' height='6' rx='2' fill='%23116a67' opacity='.7'/><rect x='3' y='21' width='26' height='6' rx='2' fill='%23116a67' opacity='.45'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-body">
+  <main class="login">
+    <div class="login-rack" aria-hidden="true">
+      <span class="ru"><i></i><i></i></span><span class="ru"><i></i><i></i></span><span class="ru"><i></i><i></i></span><span class="ru"><i></i><i></i></span>
+    </div>
+    <form class="login-card" id="form" novalidate>
+      <div class="brand">
+        <span class="brand-logo" data-brand-logo><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect x="3" y="5" width="26" height="6" rx="2" style="fill:var(--accent)"/>
+          <rect x="3" y="13" width="26" height="6" rx="2" style="fill:var(--accent)" opacity=".7"/>
+          <rect x="3" y="21" width="26" height="6" rx="2" style="fill:var(--accent)" opacity=".45"/>
+        </svg></span>
+        <div><b data-brand-name>Homelab Monitor</b><span id="sub" data-brand-msg>Entre para ver o seu homelab</span></div>
+      </div>
+      <h1 id="title">Entrar</h1>
+      <p class="small muted" id="intro" hidden>Primeiro acesso: crie a conta de administrador. Ela pode adicionar outros usuários depois.</p>
+      <div id="step-pass">
+      <label class="fld"><span>Usuário</span><input name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
+      <label class="fld"><span>Senha</span><input name="password" type="password" autocomplete="current-password" required></label>
+      <label class="fld" id="confirm-wrap" hidden><span>Repita a senha</span><input name="confirm" type="password" autocomplete="new-password"></label>
+      <label class="fld" id="setup-wrap" hidden><span>Código de configuração</span><input name="setup_code" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ex.: 3FA9C1-7B20DE">
+        <small>Por segurança, só quem tem acesso ao servidor consegue criar o primeiro administrador. Veja o código com <code>docker compose logs homelab-monitor</code>.</small></label>
+      <label class="fld check" id="remember-wrap"><input type="checkbox" name="remember"><span>Manter conectado por 30 dias</span></label>
+      </div>
+      <div id="step-2fa" hidden>
+        <p class="small muted" id="twofa-help">Digite o código de 6 dígitos do seu aplicativo autenticador.</p>
+        <label class="fld"><span id="code-label">Código</span><input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="20" class="code-input"></label>
+        <button type="button" class="linkish small" id="use-recovery">Usar um código de recuperação</button>
+      </div>
+      <p class="login-err" id="err" role="alert"></p>
+      <button class="btn primary login-btn" type="submit" id="submit">Entrar</button>
+    </form>
+  </main>
+  <script src="branding.js"></script>
+  <script src="login.js"></script>
+</body>
+</html>
