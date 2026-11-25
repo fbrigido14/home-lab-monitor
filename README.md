@@ -71,6 +71,18 @@ mostrar dados reais assim que você configura o acesso.
 <b>App Android</b> — a dashboard completa no celular, com alertas e widget
 </div>
 
+<details>
+<summary><b>Mais telas</b></summary>
+<br>
+
+| | |
+|---|---|
+| <img src="docs/screenshots/visao-geral-escuro.png" alt="Visão geral no tema escuro"> <br> **Tema escuro** | <img src="docs/screenshots/assistente-ia.png" alt="Assistente de IA"> <br> **Assistente de IA** — análise de consumo |
+| <img src="docs/screenshots/login.png" alt="Login"> <br> **Login** — com aparência personalizável | <img src="docs/screenshots/login-2fa.png" alt="Verificação em duas etapas"> <br> **2FA** — código do aplicativo autenticador |
+| <img src="docs/screenshots/configuracoes.png" alt="Configurações"> <br> **Configurações** — serviços, usuários, IA, Telegram e aparência | |
+
+</details>
+
 > As capturas usam o modo de demonstração (dados simulados).
 
 ## Integrações
