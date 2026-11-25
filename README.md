@@ -143,7 +143,7 @@ configuração de energia, Telegram, IA, aparência, diagrama, atalhos e a API.
 
 ## App Android
 
-O app em [`android/`](android/) roda a dashboard completa e acrescenta recursos de celular:
+O app em [`android/`](home-lab-monitor/android/) roda a dashboard completa e acrescenta recursos de celular:
 
 - alertas em segundo plano com canais de notificação (críticos, avisos, sessão);
 - widget com estado geral, alertas e consumo em R$/h;
@@ -151,7 +151,7 @@ O app em [`android/`](android/) roda a dashboard completa e acrescenta recursos 
 - confirmação e fixação de certificados autoassinados;
 - envio e download de arquivos.
 
-Compila sem Gradle, só com pacotes do Ubuntu/Debian. Instruções em [`android/README.md`](android/README.md).
+Compila sem Gradle, só com pacotes do Ubuntu/Debian. Instruções em [`android/README.md`](home-lab-monitor/android/README.md).
 
 ## Arquitetura
 
